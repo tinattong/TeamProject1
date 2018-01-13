@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>CloudSpot</title>
+
+  <link rel="icon" href="./assets/CloudSpot.png">
+  <!-- Bootswatch Styling for Improving the Aesthetics -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootswatch/3.3.6/flatly/bootstrap.min.css">
+  <!-- Font Awesome CSS Icons (For cool glyphicons) -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="./assets/popup.css">
+  <link rel="stylesheet" href="./assets/CloudSpot.css">
+
+  <!-- jQuery JS -->
+  <script src="https://code.jquery.com/jquery.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/3.7.0/firebase.js"></script>
+  <!-- Code to the JavaScript File -->
+  <script src="./assets/popup.js"></script>
+  <script src="./assets/Firebase.js"></script>
+  <script src="./assets/CloudSpot.js"></script>
+  <script src="./assets/PlexAPI.js"></script>
+</head>
+<body>
+  <!-- Main Bootstrap Search -->
+  <div class="container">
+    <!-- Jumbotron for Title -->
+    <div class="panel panel-primary">
+      <div class="panel-heading">
+        <h3 class="text-center">
+          <img src="./assets/CloudSpot.png" alt="CloudSpot" height="50">
+          <strong>&nbsp;&nbsp;&nbsp;CloudSpot</strong>
+        </h3>
+      </div>
+    </div>
+    <!-- This row will handle all of the retrieved Data -->
+    <div class="row">
+      <div class="col-sm-3">
+        <div class="panel panel-primary">
+          <div class="panel-heading">
+            <h3 class="panel-title text-center"><strong><i class="fa">Pick a Playlist</i></strong></h3>
+          </div>
+          <div class="panel-body text-center">
+            <div class="row">
+              <select id="allPlaylists" size="20" style="width: 90%">
+              </select>
+            </div>
+            <div class="row">
+              <div class="col-sm-offset-1 col-sm-5">
+                <img id="addList" src="./assets/add.png" alt="Add New" style="width: 100%"></div>
+              <div class="col-sm-5">
+                <img id="delList" src="./assets/del.png" alt="Delete" style="width: 100%"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-sm-9">
+        <div class="panel panel-primary">
+          <div class="panel-heading text-center">
+            <h3 class="panel-title"><strong><i class="fa" id="PlaylistName"></i></strong></h3>
+          </div>
+          <div class="panel-body text-left">
+            <div class="row">
+              <div class="col-sm-12">
+                <table class="scroll">
+                  <thead>
+                    <tr>
+                      <th>Title</th>
+                      <th>Artist</th>
+                      <th>Album</th>
+                      <th>Track</th>
+                      <th>Duration</th>
+                    </tr>
+                  </thead>
+                  <tbody id="bodyPlaylist">
+                    <tr></tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-sm-offset-3 col-sm-2">
+                <img id="addSong" src="./assets/add.png" alt="Add New" style="width: 75%; padding-top: 2px"></div>
+              <div class="col-sm-2">
+                <img id="plySong" src="./assets/ply.png" alt="Play" style="width: 75%; padding-top: 2px"></div>
+              <div class="col-sm-2">
+                <img id="delSong" src="./assets/del.png" alt="Delete" style="width: 75%; padding-top: 2px"></div>
+            </div>
+          </div>
+         </div>
+      </div>
+    </div>
+    <!-- Footer Region -->
+    <div class="row">
+    <div class="panel panel-primary">
+      <div class="panel-heading text-center">
+        <div style="font-size: 8px">© Copyright 2017 - TLOE</div>
+      </div>
+    </div>
+  </div>
+  <!-- Pop up window for Detailed Information -->
+  <div class="popup" data-popup="Spotify">
+    <div class="popup-inner">
+      <div class="panel panel-primary">
+        <div class="panel-heading">
+          <h3 class="text-center">
+            <img src="./assets/CloudSpot.png" alt="CloudSpot" height="50">
+            <strong>CloudSpot</strong>
+          </h3>
+        </div>
+      </div>
+      <div class="panel-body text-center">
+        <div class="row">
+          <div class="col-lg-12">
+            <table class="scroll scroll-sm">
+              <thead>
+                <tr>
+                  <th>Title</th>
+                  <th>Artist</th>
+                  <th>Album</th>
+                  <th>Track</th>
+                  <th>Duration</th>
+                </tr>
+              </thead>
+              <tbody id="bodySpotify">
+                <tr></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <div class="row">&nbsp;</div>
+        <div class="row">
+          <div class="col-sm-offset-2 col-sm-4">
+            <img id="sptOks" src="./assets/oks.png" alt="OK" style="width: 100%"></div>
+          <div class="col-sm-4">
+            <img id="sptCan" src="./assets/can.png" alt="Cancel" style="width: 100%"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Pop up window for YesNo Questions -->
+  <div class="popup" data-popup="YesNo">
+    <div class="popup-inner">
+      <div class="panel panel-primary">
+        <div class="panel-heading">
+          <h3 class="text-center">
+            <img src="./assets/CloudSpot.png" alt="CloudSpot" height="50">
+            <strong>CloudSpot</strong>
+          </h3>
+        </div>
+      </div>
+      <div class="panel-body text-center">
+        <div class="row" id="YesNoContent">
+        </div>
+        <div class="row">&nbsp;</div>
+        <div class="row">
+          <div class="col-sm-offset-2 col-sm-4">
+            <img id="ansYes" src="./assets/yes.png" alt="Yes" style="width: 100%"></div>
+          <div class="col-sm-4">
+            <img id="ansNeg" src="./assets/neg.png" alt="No" style="width: 100%"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Pop up window for Prompt Questions -->
+  <div class="popup" data-popup="Prompt">
+    <div class="popup-inner">
+      <div class="panel panel-primary">
+        <div class="panel-heading">
+          <h3 class="text-center">
+            <img src="./assets/CloudSpot.png" alt="CloudSpot" height="50">
+            <strong>CloudSpot</strong>
+          </h3>
+        </div>
+      </div>
+      <div class="panel-body text-center">
+        <div class="row" id="PromptContent">
+        </div>
+        <div class="row">
+          <input id="PromptBox" type="text">
+        </div>
+        <div class="row">&nbsp;</div>
+        <div class="row">
+          <div class="col-sm-offset-2 col-sm-4">
+            <img id="ansOks" src="./assets/oks.png" alt="OK" style="width: 100%"></div>
+          <div class="col-sm-4">
+            <img id="ansCan" src="./assets/can.png" alt="Cancel" style="width: 100%"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
